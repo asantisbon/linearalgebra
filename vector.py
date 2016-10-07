@@ -1,3 +1,6 @@
+import math
+
+
 class Vector(object):
     def __init__(self, coordinates):
         try:
@@ -65,3 +68,12 @@ class Vector(object):
         result = [x * c for x in self.coordinates]
 
         return Vector(result)
+
+    def get_magnitude(self):
+        return math.sqrt(sum([x**2 for x in self.coordinates]))
+
+    def get_unit_vector(self):
+        try:
+            return self.scalar_multiply(1./self.get_magnitude())
+        except ZeroDivisionError:
+            raise Exception('Cannot normalize the zero vector')

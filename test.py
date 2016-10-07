@@ -38,6 +38,22 @@ class TestVectors(unittest.TestCase):
 
         self.assertEqual(vector1.scalar_multiply(3), Vector([27, -12, 21]))
 
+    def test_get_magnitude(self):
+        vector1 = Vector([1, -2, 3])
+        self.assertEqual(round(vector1.get_magnitude(), 3), 3.742)
+
+        vector2 = Vector([-0.221, 7.437])
+        vector3 = Vector([8.813, -1.331, -6.247])
+
+    def test_get_unit_vector(self):
+        vector1 = Vector([2, 3])
+
+        self.assertEqual(round(vector1.get_unit_vector().coordinates[0], 3),
+                         0.555)
+        self.assertEqual(round(vector1.get_unit_vector().coordinates[1], 3),
+                         0.832)
+
+
 # One way to run the tests from the comnad line
 # if __name__ == '__main__':
 #     unittest.main()
