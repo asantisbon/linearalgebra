@@ -1,4 +1,5 @@
-import math
+from math import sqrt, acos, degrees
+from decimal import Decimal
 
 
 class Vector(object):
@@ -6,14 +7,16 @@ class Vector(object):
         try:
             if not coordinates:
                 raise ValueError
-            self.coordinates = tuple(coordinates)
+            # Make coordinates a Decimal for better precision
+            # Use a list comprehension to convert each component to Decimal
+            self.coordinates = tuple([Decimal(x) for x in coordinates])
             self.dimension = len(coordinates)
 
         except ValueError:
-            raise ValueError('The coordinates must be nonempty')
+            raise ValueError('The coordinates must be nonempty.')
 
         except TypeError:
-            raise TypeError('The coordinates must be an iterable')
+            raise TypeError('The coordinates must be an iterable.')
 
     def __str__(self):
         # {} implicitly references the first positional argument
@@ -65,15 +68,28 @@ class Vector(object):
         #     result.append(self.coordinates[i] * c)
 
         # Using a list comprehension
-        result = [x * c for x in self.coordinates]
+        result = [x * Decimal(c) for x in self.coordinates]
 
         return Vector(result)
 
     def get_magnitude(self):
-        return math.sqrt(sum([x**2 for x in self.coordinates]))
+        return Decimal(sqrt(sum([x**2 for x in self.coordinates])))
 
-    def get_unit_vector(self):
+    def normalize(self):
         try:
-            return self.scalar_multiply(1./self.get_magnitude())
+            return self.scalar_multiply(Decimal('1.0')/self.get_magnitude())
         except ZeroDivisionError:
-            raise Exception('Cannot normalize the zero vector')
+            raise Exception('Cannot normalize the zero vector.')
+
+    def dot_product(self, v):
+        return sum([x * y for x, y in zip(self.coordinates, v.coordinates)])
+
+    def get_theta(self, v, in_degrees=False):
+        if self.get_magnitude() == 0 or v.get_magnitude() == 0:
+            raise Exception('Cannot get the angle between the zero vector and another vector.')  # noqa
+
+        if in_degrees:
+            return degrees(
+                acos(self.normalize().dot_product(v.normalize())))
+        else:
+            return acos(self.normalize().dot_product(v.normalize()))

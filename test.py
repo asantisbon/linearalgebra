@@ -1,5 +1,6 @@
 from vector import Vector
 import unittest
+import math
 
 
 class TestVectors(unittest.TestCase):
@@ -42,16 +43,29 @@ class TestVectors(unittest.TestCase):
         vector1 = Vector([1, -2, 3])
         self.assertEqual(round(vector1.get_magnitude(), 3), 3.742)
 
-        vector2 = Vector([-0.221, 7.437])
-        vector3 = Vector([8.813, -1.331, -6.247])
-
-    def test_get_unit_vector(self):
+    def test_normalize(self):
         vector1 = Vector([2, 3])
 
-        self.assertEqual(round(vector1.get_unit_vector().coordinates[0], 3),
+        self.assertEqual(round(vector1.normalize().coordinates[0], 3),
                          0.555)
-        self.assertEqual(round(vector1.get_unit_vector().coordinates[1], 3),
+        self.assertEqual(round(vector1.normalize().coordinates[1], 3),
                          0.832)
+
+    def test_dot_product(self):
+        vector1 = Vector([-1, 2, 3])
+        vector2 = Vector([4, -5, 6])
+
+        self.assertEqual(vector1.dot_product(vector2), 4)
+
+    def test_get_theta(self):
+        vector1 = Vector([-1, 2, 3])
+        vector2 = Vector([4, -5, 6])
+
+        self.assertEqual(round(vector1.get_theta(vector2), 3), 1.449)
+        self.assertEqual(round(vector1.get_theta(vector2, True), 3), 83.002)
+
+    def test_z(self):
+        print '\n'
 
 
 # One way to run the tests from the comnad line
