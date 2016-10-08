@@ -6,7 +6,7 @@ from decimal import Decimal, getcontext
 class Vector(object):
     def __init__(self, coordinates):
         try:
-            getcontext().prec = 4
+            getcontext().prec = 10
 
             if not coordinates:
                 raise ValueError

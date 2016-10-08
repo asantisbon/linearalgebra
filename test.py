@@ -64,7 +64,7 @@ class TestVectors(unittest.TestCase):
         self.assertEqual(round(vector1.get_theta(vector2), 3),
                          1.449)
         self.assertEqual(round(vector1.get_theta(vector2, True), 3),
-                         82.998)
+                         83.002)
 
     def test_is_parallel_to(self):
         vector1 = Vector([2, 3])
