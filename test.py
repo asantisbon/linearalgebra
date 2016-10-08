@@ -1,6 +1,6 @@
+from __future__ import division
 from vector import Vector
 import unittest
-import math
 
 
 class TestVectors(unittest.TestCase):
@@ -61,12 +61,72 @@ class TestVectors(unittest.TestCase):
         vector1 = Vector([-1, 2, 3])
         vector2 = Vector([4, -5, 6])
 
-        self.assertEqual(round(vector1.get_theta(vector2), 3), 1.449)
-        self.assertEqual(round(vector1.get_theta(vector2, True), 3), 83.002)
+        self.assertEqual(round(vector1.get_theta(vector2), 3),
+                         1.449)
+        self.assertEqual(round(vector1.get_theta(vector2, True), 3),
+                         82.998)
+
+    def test_is_parallel_to(self):
+        vector1 = Vector([2, 3])
+        vector2 = Vector([1, 1.5])
+        vector3 = Vector([8, 9])
+        vector4 = Vector([1, 2])
+        vector5 = Vector([7, 1.5])
+        zeroVector = Vector([0, 0])
+
+        self.assertEqual(vector1.is_parallel_to(vector2), True)
+        self.assertEqual(vector1.is_parallel_to(zeroVector), True)
+
+        self.assertEqual(vector1.is_parallel_to(vector3), False)
+        self.assertEqual(vector1.is_parallel_to(vector4), False)
+        self.assertEqual(vector1.is_parallel_to(vector5), False)
+
+        v = Vector([-7.579, -7.88])
+        w = Vector([22.737, 23.64])
+        self.assertEqual(v.is_parallel_to(w), True)
+
+        v = Vector([-2.029, 9.97, 4.172])
+        w = Vector([-9.231, -6.639, -7.245])
+        self.assertEqual(v.is_parallel_to(w), False)
+
+        v = Vector([-2.328, -7.284, -1.214])
+        w = Vector([-1.821, 1.072, -2.94])
+        self.assertEqual(v.is_parallel_to(w), False)
+
+        v = Vector([2.118, 4.827])
+        w = Vector([0, 0])
+        self.assertEqual(v.is_parallel_to(w), True)
+
+    def test_is_orthogonal_to(self):
+        vector1 = Vector([0, 3])
+        vector2 = Vector([2, 0])
+        vector3 = Vector([1, 1])
+        zeroVector = Vector([0, 0])
+
+        self.assertEqual(vector1.is_orthogonal_to(vector2), True)
+        self.assertEqual(vector1.is_orthogonal_to(zeroVector), True)
+        self.assertEqual(zeroVector.is_orthogonal_to(zeroVector), True)
+
+        self.assertEqual(vector1.is_orthogonal_to(vector3), False)
+
+        v = Vector([-7.579, -7.88])
+        w = Vector([22.737, 23.64])
+        self.assertEqual(v.is_orthogonal_to(w), False)
+
+        v = Vector([-2.029, 9.97, 4.172])
+        w = Vector([-9.231, -6.639, -7.245])
+        self.assertEqual(v.is_orthogonal_to(w), False)
+
+        v = Vector([-2.328, -7.284, -1.214])
+        w = Vector([-1.821, 1.072, -2.94])
+        self.assertEqual(v.is_orthogonal_to(w), True)
+
+        v = Vector([2.118, 4.827])
+        w = Vector([0, 0])
+        self.assertEqual(v.is_orthogonal_to(w), True)
 
     def test_z(self):
         print '\n'
-
 
 # One way to run the tests from the comnad line
 # if __name__ == '__main__':
