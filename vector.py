@@ -82,6 +82,7 @@ class Vector(object):
         # return sqrt(sum([x ** 2 for x in self.coordinates]))
 
     def normalize(self):
+        """Get the unit vector"""
         try:
             return self.scalar_multiply(Decimal('1.0')/self.get_magnitude())
             # return self.scalar_multiply(1.0 / self.get_magnitude())
@@ -125,6 +126,9 @@ class Vector(object):
     #             self.get_theta(v) == pi)
 
     def is_orthogonal_to(self, v, tolerance=1e-10):
+        """
+        Determines if two vectors are orthogonal (their dot product is zero)
+        """
         if self.dimension != v.dimension:
             raise Exception('Vectors must have the same # of dimensions.')
 
@@ -132,3 +136,21 @@ class Vector(object):
 
     def is_zero(self, tolerance=1e-10):
         return self.get_magnitude() < tolerance
+
+    def get_v_parallel(self, b):
+        """
+        Project the vector v onto a base vector b and
+        get the component of v that is parallel to b
+        :param b: base vector
+        :return: v parallel (the component of v that is parallel to b)
+        """
+        return b.normalize().scalar_multiply(self.dot_product(b.normalize()))
+
+    def get_v_perp(self, b):
+        """
+        Project the vector v onto a base vector b and
+        get the component of v that is orthogonal to b
+        :param b: base vector
+        :return: v perp (the component of v that is orthogonal to b)
+        """
+        return self.subtract(self.get_v_parallel(b))
