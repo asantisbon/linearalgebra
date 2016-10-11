@@ -103,6 +103,12 @@ class Vector(object):
             return acos(self.normalize().dot_product(v.normalize()))
 
     def is_parallel_to(self, v):
+        """
+        Determines if two vectors are parallel by checking if one
+        is a scalar multiple of the other.
+        :param v:
+        :return: True if parallel, False otherwise
+        """
         if self.dimension != v.dimension:
             raise Exception('Vectors must have the same # of dimensions.')
 
@@ -144,6 +150,9 @@ class Vector(object):
         :param b: base vector
         :return: vector v parallel (the component of v that is parallel to b)
         """
+        if self.dimension != b.dimension:
+            raise Exception('Vectors must have the same # of dimensions.')
+
         return b.normalize().scalar_multiply(self.dot_product(b.normalize()))
 
     def get_v_perp(self, b):
@@ -153,4 +162,7 @@ class Vector(object):
         :param b: base vector
         :return: vector v perp (the component of v that is orthogonal to b)
         """
+        if self.dimension != b.dimension:
+            raise Exception('Vectors must have the same # of dimensions.')
+
         return self.subtract(self.get_v_parallel(b))
