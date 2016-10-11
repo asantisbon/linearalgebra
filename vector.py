@@ -142,7 +142,7 @@ class Vector(object):
         Project the vector v onto a base vector b and
         get the component of v that is parallel to b
         :param b: base vector
-        :return: v parallel (the component of v that is parallel to b)
+        :return: vector v parallel (the component of v that is parallel to b)
         """
         return b.normalize().scalar_multiply(self.dot_product(b.normalize()))
 
@@ -151,6 +151,6 @@ class Vector(object):
         Project the vector v onto a base vector b and
         get the component of v that is orthogonal to b
         :param b: base vector
-        :return: v perp (the component of v that is orthogonal to b)
+        :return: vector v perp (the component of v that is orthogonal to b)
         """
         return self.subtract(self.get_v_parallel(b))

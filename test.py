@@ -1,5 +1,6 @@
 from __future__ import division
 from vector import Vector
+from decimal import Decimal
 import unittest
 
 
@@ -124,6 +125,37 @@ class TestVectors(unittest.TestCase):
         v = Vector([2.118, 4.827])
         w = Vector([0, 0])
         self.assertEqual(v.is_orthogonal_to(w), True)
+
+    def test_get_v_parallel(self):
+        v = Vector([3.039, 1.879])
+        b = Vector([0.825, 2.036])
+        self.assertEqual(v.get_v_parallel(b),
+                         Vector((Decimal('1.082606963'),
+                                 Decimal('2.671742759'))))
+
+        v = Vector([3.009, -6.172, 3.692, -2.51])
+        b = Vector([6.404, -9.144, 2.759, 8.718])
+        self.assertEqual(v.get_v_parallel(b),
+                         Vector([Decimal('1.968516167'),
+                                 Decimal('-2.810760749'),
+                                 Decimal('0.8480849635'),
+                                 Decimal('2.679813233')]))
+
+    def test_get_v_perp(self):
+        v = Vector([-9.88, -3.264, -8.159])
+        b = Vector([-2.155, -9.353, -9.473])
+        self.assertEqual(v.get_v_perp(b),
+                         Vector([Decimal('-8.350081043'),
+                                 Decimal('3.376061254'),
+                                 Decimal('-1.433746042')]))
+
+        v = Vector([3.009, -6.172, 3.692, -2.51])
+        b = Vector([6.404, -9.144, 2.759, 8.718])
+        self.assertEqual(v.get_v_perp(b),
+                         Vector([Decimal('1.040483833'),
+                                 Decimal('-3.361239251'),
+                                 Decimal('2.843915037'),
+                                 Decimal('-5.189813233')]))
 
     def test_z(self):
         print '\n'
