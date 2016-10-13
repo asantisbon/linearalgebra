@@ -46,11 +46,15 @@ class TestVectors(unittest.TestCase):
 
     def test_normalize(self):
         vector1 = Vector([2, 3])
+        zeroVector = Vector([0, 0, 0])
 
         self.assertEqual(round(vector1.normalize().coordinates[0], 3),
                          0.555)
         self.assertEqual(round(vector1.normalize().coordinates[1], 3),
                          0.832)
+
+        with self.assertRaises(Exception):
+            zeroVector.normalize()
 
     def test_dot_product(self):
         vector1 = Vector([-1, 2, 3])
@@ -156,6 +160,26 @@ class TestVectors(unittest.TestCase):
                                  Decimal('-3.361239251'),
                                  Decimal('2.843915037'),
                                  Decimal('-5.189813233')]))
+
+    def test_cross_product(self):
+        v = Vector([5, 3, -2])
+        w = Vector([-1, 0, 3])
+        self.assertEqual(v.cross_product(w), Vector([9, -13, 3]))
+
+        v = Vector([8.462, 7.893, -8.187])
+        w = Vector([6.984, -5.975, 4.778])
+        self.assertEqual(v.cross_product(w), Vector([Decimal('-11.20457100'),
+                                                     Decimal('-97.60944400'),
+                                                     Decimal('-105.6851620')]))
+
+        v = Vector([-8.987, -9.838, 5.031])
+        w = Vector([-4.268, -1.861, -8.866])
+        self.assertEqual(v.area_of_parallelogram_with(w),
+                         Decimal('142.12222141523119489647797308862209320068359375'))  # noqa
+
+        v = Vector([1.5, 9.547, 3.691])
+        w = Vector([-6.007, 0.124, 5.772])
+        self.assertEqual(v.get_area_of_triangle(w), Decimal('42.56493740'))
 
     def test_z(self):
         print '\n'

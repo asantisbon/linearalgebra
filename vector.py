@@ -104,7 +104,7 @@ class Vector(object):
 
     def is_parallel_to(self, v):
         """
-        Determines if two vectors are parallel by checking if one
+        Determine if two vectors are parallel by checking if one
         is a scalar multiple of the other.
         :param v:
         :return: True if parallel, False otherwise
@@ -133,7 +133,7 @@ class Vector(object):
 
     def is_orthogonal_to(self, v, tolerance=1e-10):
         """
-        Determines if two vectors are orthogonal (their dot product is zero)
+        Determine if two vectors are orthogonal (their dot product is zero)
         """
         if self.dimension != v.dimension:
             raise Exception('Vectors must have the same # of dimensions.')
@@ -145,20 +145,19 @@ class Vector(object):
 
     def get_v_parallel(self, b):
         """
-        Project the vector v onto a base vector b and
-        get the component of v that is parallel to b
+        Get the component of v that is parallel to b
         :param b: base vector
         :return: vector v parallel (the component of v that is parallel to b)
         """
         if self.dimension != b.dimension:
             raise Exception('Vectors must have the same # of dimensions.')
 
-        return b.normalize().scalar_multiply(self.dot_product(b.normalize()))
+        unit_b = b.normalize()
+        return unit_b.scalar_multiply(self.dot_product(unit_b))
 
     def get_v_perp(self, b):
         """
-        Project the vector v onto a base vector b and
-        get the component of v that is orthogonal to b
+        Get the component of v that is orthogonal to b
         :param b: base vector
         :return: vector v perp (the component of v that is orthogonal to b)
         """
@@ -166,3 +165,35 @@ class Vector(object):
             raise Exception('Vectors must have the same # of dimensions.')
 
         return self.subtract(self.get_v_parallel(b))
+
+    def cross_product(self, w):
+        """
+        Compute the cross product of the vector and another vector.
+        :param w: A vector
+        :return: The vector representing the cross product
+        """
+        if self.dimension == 3 and w.dimension == 3:
+            v = self.coordinates
+            w = w.coordinates
+            return Vector([v[1] * w[2] - w[1] * v[2],
+                           w[0] * v[2] - v[0] * w[2],
+                           v[0] * w[1] - w[0] * v[1]])
+        else:
+            raise Exception('Vectors must be 3-dimensional.')
+
+    def area_of_parallelogram_with(self, w):
+        """
+        Get the area of the parallelogram formed by
+        this vector and a supplied vector.
+        :param w:
+        :return:
+        """
+        return self.cross_product(w).get_magnitude()
+
+    def get_area_of_triangle(self, w):
+        """
+        Gets
+        :param w:
+        :return:
+        """
+        return self.area_of_parallelogram_with(w) / Decimal(2)
